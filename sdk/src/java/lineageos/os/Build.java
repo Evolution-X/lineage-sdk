@@ -17,10 +17,10 @@ public class Build {
     public static final String UNKNOWN = "unknown";
 
     /** A build ID utilized to distinguish lineageos versions */
-    public static final String LINEAGEOS_VERSION = getString("ro.lineage.version");
+    public static final String EVOLUTION_VERSION = getString("ro.evolution.version");
 
     /** A build ID string meant for displaying to the user */
-    public static final String LINEAGEOS_DISPLAY_VERSION = getString("ro.lineage.display.version");
+    public static final String EVOLUTION_DISPLAY_VERSION = getString("ro.evolution.display.version");
 
     private static final SparseArray<String> sdkMap;
     static
