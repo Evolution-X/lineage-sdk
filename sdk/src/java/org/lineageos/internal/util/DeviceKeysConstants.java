@@ -29,10 +29,15 @@ public class DeviceKeysConstants {
         PLAY_PAUSE_MUSIC,
         SCREENSHOT,
         PARTIAL_SCREENSHOT,
-        CYCLE_RINGER_MODE;
+        CYCLE_RINGER_MODE,
+        TORCH,
+        VOLUME_PANEL,
+        CLEAR_ALL_NOTIFICATIONS,
+        NOTIFICATIONS,
+        QS_PANEL;
 
         public static Action fromIntSafe(int id) {
-            if (id < NOTHING.ordinal() || id > Action.values().length) {
+            if (id < NOTHING.ordinal() || id >= Action.values().length) {
                 return NOTHING;
             }
             return Action.values()[id];
