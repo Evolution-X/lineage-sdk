@@ -163,6 +163,15 @@
             8 - Last app
             9 - Toggle split screen
             10 - Kill foreground app
+            11 - Play/pause music
+            12 - Take screenshot
+            13 - Take partial screenshot
+            14 - Torch
+            15 - Volume Panel
+            16 - Clear All Notifications
+            17 - Notifications
+            18 - Toggle Qs Panel
+            19 - Ringer Modes
          This needs to match the enums in
          sdk/src/java/org/lineageos/internal/util/DeviceKeysConstants.java.
     -->
@@ -180,6 +189,15 @@
             8 - Last app
             9 - Toggle split screen
             10 - Kill foreground app
+            11 - Play/pause music
+            12 - Take screenshot
+            13 - Take partial screenshot
+            14 - Torch
+            15 - Volume Panel
+            16 - Clear All Notifications
+            17 - Notifications
+            18 - Toggle Qs Panel
+            19 - Ringer Modes
          This needs to match the enums in
          sdk/src/java/org/lineageos/internal/util/DeviceKeysConstants.java.
     -->
@@ -197,6 +215,15 @@
             8 - Last app
             9 - Toggle split screen
             10 - Kill foreground app
+            11 - Play/pause music
+            12 - Take screenshot
+            13 - Take partial screenshot
+            14 - Torch
+            15 - Volume Panel
+            16 - Clear All Notifications
+            17 - Notifications
+            18 - Toggle Qs Panel
+            19 - Ringer Modes
          This needs to match the enums in
          sdk/src/java/org/lineageos/internal/util/DeviceKeysConstants.java.
     -->
@@ -214,6 +241,15 @@
             8 - Last app
             9 - Toggle split screen
             10 - Kill foreground app
+            11 - Play/pause music
+            12 - Take screenshot
+            13 - Take partial screenshot
+            14 - Torch
+            15 - Volume Panel
+            16 - Clear All Notifications
+            17 - Notifications
+            18 - Toggle Qs Panel
+            19 - Ringer Modes
          This needs to match the enums in
          sdk/src/java/org/lineageos/internal/util/DeviceKeysConstants.java.
     -->
@@ -231,6 +267,15 @@
             8 - Last app
             9 - Toggle split screen
             10 - Kill foreground app
+            11 - Play/pause music
+            12 - Take screenshot
+            13 - Take partial screenshot
+            14 - Torch
+            15 - Volume Panel
+            16 - Clear All Notifications
+            17 - Notifications
+            18 - Toggle Qs Panel
+            19 - Ringer Modes
          This needs to match the enums in
          sdk/src/java/org/lineageos/internal/util/DeviceKeysConstants.java.
     -->
