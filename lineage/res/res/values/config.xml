@@ -167,6 +167,11 @@
             12 - Screenshot
             13 - Partial screenshot
             14 - Cycle ringer mode
+            15 - Torch
+            16 - Volume Panel
+            17 - Clear All Notifications
+            18 - Notifications
+            19 - Toggle Qs Panel
          This needs to match the enums in
          sdk/src/java/org/lineageos/internal/util/DeviceKeysConstants.java.
     -->
@@ -188,6 +193,11 @@
             12 - Screenshot
             13 - Partial screenshot
             14 - Cycle ringer mode
+            15 - Torch
+            16 - Volume Panel
+            17 - Clear All Notifications
+            18 - Notifications
+            19 - Toggle Qs Panel
          This needs to match the enums in
          sdk/src/java/org/lineageos/internal/util/DeviceKeysConstants.java.
     -->
@@ -209,6 +219,11 @@
             12 - Screenshot
             13 - Partial screenshot
             14 - Cycle ringer mode
+            15 - Torch
+            16 - Volume Panel
+            17 - Clear All Notifications
+            18 - Notifications
+            19 - Toggle Qs Panel
          This needs to match the enums in
          sdk/src/java/org/lineageos/internal/util/DeviceKeysConstants.java.
     -->
@@ -230,6 +245,11 @@
             12 - Screenshot
             13 - Partial screenshot
             14 - Cycle ringer mode
+            15 - Torch
+            16 - Volume Panel
+            17 - Clear All Notifications
+            18 - Notifications
+            19 - Toggle Qs Panel
          This needs to match the enums in
          sdk/src/java/org/lineageos/internal/util/DeviceKeysConstants.java.
     -->
@@ -251,6 +271,11 @@
             12 - Screenshot
             13 - Partial screenshot
             14 - Cycle ringer mode
+            15 - Torch
+            16 - Volume Panel
+            17 - Clear All Notifications
+            18 - Notifications
+            19 - Toggle Qs Panel
          This needs to match the enums in
          sdk/src/java/org/lineageos/internal/util/DeviceKeysConstants.java.
     -->
