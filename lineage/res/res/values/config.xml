@@ -158,6 +158,14 @@
             8 - Last app
             9 - Toggle split screen
             10 - Kill foreground app
+            11 - Play/pause music
+            12 - Take screenshot
+            13 - Torch
+            14 - Volume Panel
+            15 - Clear All Notifications
+            16 - Notifications
+            17 - Toggle Qs Panel
+            18 - Ringer Modes
          This needs to match the enums in
          sdk/src/java/org/lineageos/internal/util/DeviceKeysConstants.java.
     -->
@@ -175,6 +183,14 @@
             8 - Last app
             9 - Toggle split screen
             10 - Kill foreground app
+            11 - Play/pause music
+            12 - Take screenshot    
+            13 - Torch
+            14 - Volume Panel
+            15 - Clear All Notifications
+            16 - Notifications
+            17 - Toggle Qs Panel
+            18 - Ringer Modes
          This needs to match the enums in
          sdk/src/java/org/lineageos/internal/util/DeviceKeysConstants.java.
     -->
@@ -192,6 +208,14 @@
             8 - Last app
             9 - Toggle split screen
             10 - Kill foreground app
+            11 - Play/pause music
+            12 - Take screenshot    
+            13 - Torch
+            14 - Volume Panel
+            15 - Clear All Notifications
+            16 - Notifications
+            17 - Toggle Qs Panel
+            18 - Ringer Modes
          This needs to match the enums in
          sdk/src/java/org/lineageos/internal/util/DeviceKeysConstants.java.
     -->
@@ -209,6 +233,14 @@
             8 - Last app
             9 - Toggle split screen
             10 - Kill foreground app
+            11 - Play/pause music
+            12 - Take screenshot    
+            13 - Torch
+            14 - Volume Panel
+            15 - Clear All Notifications
+            16 - Notifications
+            17 - Toggle Qs Panel
+            18 - Ringer Modes
          This needs to match the enums in
          sdk/src/java/org/lineageos/internal/util/DeviceKeysConstants.java.
     -->
@@ -226,6 +258,14 @@
             8 - Last app
             9 - Toggle split screen
             10 - Kill foreground app
+            11 - Play/pause music
+            12 - Take screenshot    
+            13 - Torch
+            14 - Volume Panel
+            15 - Clear All Notifications
+            16 - Notifications
+            17 - Toggle Qs Panel
+            18 - Ringer Modes
          This needs to match the enums in
          sdk/src/java/org/lineageos/internal/util/DeviceKeysConstants.java.
     -->
