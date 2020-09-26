@@ -5,7 +5,7 @@
      SPDX-License-Identifier: Apache-2.0
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="lineageos_system_label">LineageOS Sistemi</string>
+    <string name="lineageos_system_label">Evolution X Sistemi</string>
     <string name="permlab_modifyProfiles">sistem profillərini dəyişdir</string>
     <string name="permdesc_modifyProfiles">Tətbiqin sistem profillərini dəyişdirməsinə icazə verir.</string>
     <string name="permlab_useHardwareFramework">avadanlıq bünövrəsindən istifadə et</string>
@@ -52,9 +52,9 @@
     <string name="permlab_manageRemotePrefs">uzaqdan bağlantı ayarlarını idarə et</string>
     <string name="permdesc_manageRemotePrefs">Tətbiqin uzaqdan bağlantı ayarlarını idarə etməsinə icazə verir</string>
     <string name="build_date">Quruluş tarixi</string>
-    <string name="lineage_api_level">LineageOS API səviyyəsi</string>
-    <string name="lineage_updates">LineageOS güncəlləmələri</string>
-    <string name="lineage_version">LineageOS versiyası</string>
+    <string name="lineage_api_level">Evolution X API səviyyəsi</string>
+    <string name="lineage_updates">Evolution X güncəlləmələri</string>
+    <string name="lineage_version">Evolution X versiyası</string>
     <string name="lineage_vendor_security_patch">Vendor güvənlik yamaq səviyyəsi</string>
     <string name="unknown">Bilinmir</string>
     <string name="app_killed_message">Tətbiq bağlanıldı</string>

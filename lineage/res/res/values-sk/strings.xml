@@ -5,7 +5,7 @@
      SPDX-License-Identifier: Apache-2.0
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="lineageos_system_label">Systém LineageOS</string>
+    <string name="lineageos_system_label">Systém Evolution X</string>
     <string name="permlab_modifyProfiles">upraviť systémové profily</string>
     <string name="permdesc_modifyProfiles">Umožňuje aplikácii upraviť systémové profily.</string>
     <string name="permlab_useHardwareFramework">používať hardvérový framework</string>
@@ -52,9 +52,9 @@
     <string name="permlab_manageRemotePrefs">správa vzdialených nastavení</string>
     <string name="permdesc_manageRemotePrefs">Umožňuje spravovať vzdialené nastavenia</string>
     <string name="build_date">Dátum zostavenia</string>
-    <string name="lineage_api_level">Verzia LineageOS API</string>
-    <string name="lineage_updates">Aktualizácie LineageOS</string>
-    <string name="lineage_version">Verzia LineageOS</string>
+    <string name="lineage_api_level">Verzia Evolution X API</string>
+    <string name="lineage_updates">Aktualizácie Evolution X</string>
+    <string name="lineage_version">Verzia Evolution X</string>
     <string name="lineage_vendor_security_patch">Úroveň opravy zabezpečenia výrobcu</string>
     <string name="unknown">Neznáma</string>
     <string name="app_killed_message">Aplikácia bola ukončená</string>
