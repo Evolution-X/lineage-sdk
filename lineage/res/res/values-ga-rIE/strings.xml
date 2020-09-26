@@ -5,7 +5,7 @@
      SPDX-License-Identifier: Apache-2.0
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="lineageos_system_label">Córas LineageOS</string>
+    <string name="lineageos_system_label">Córas Evolution X</string>
     <string name="permlab_modifyProfiles">próifílí córais a mhodhnú</string>
     <string name="permdesc_modifyProfiles">Ligeann sé d\'aip próifílí córais a mhodhnú.</string>
     <string name="permlab_useHardwareFramework">úsáid creatlach crua-earraí</string>
@@ -56,8 +56,8 @@
     <string name="permlab_manageRemotePrefs">socruithe cianda a bhainistiú</string>
     <string name="permdesc_manageRemotePrefs">Ligeann sé d’aip cianshocruithe a bhainistiú</string>
     <string name="build_date">Dáta tógála</string>
-    <string name="lineage_api_level">Leibhéal API LineageOS</string>
-    <string name="lineage_updates">Nuashonruithe do LineageOS</string>
+    <string name="lineage_api_level">Leibhéal API Evolution X</string>
+    <string name="lineage_updates">Nuashonruithe do Evolution X</string>
     <string name="lineage_version">LineageOS leagan</string>
     <string name="lineage_vendor_security_patch">Leibhéal paiste slándála díoltóir</string>
     <string name="unknown">Anaithnid</string>
