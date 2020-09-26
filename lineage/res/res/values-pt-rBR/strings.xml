@@ -5,7 +5,7 @@
      SPDX-License-Identifier: Apache-2.0
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="lineageos_system_label">Sistema LineageOS</string>
+    <string name="lineageos_system_label">Sistema Evolution X</string>
     <string name="permlab_modifyProfiles">modificar perfis do sistema</string>
     <string name="permdesc_modifyProfiles">Permite que um app modifique perfis do sistema.</string>
     <string name="permlab_useHardwareFramework">usar estrutura de hardware</string>
@@ -56,9 +56,9 @@
     <string name="permlab_manageRemotePrefs">Administrar configurações remotas</string>
     <string name="permdesc_manageRemotePrefs">Permite que um app gerencie configurações remotas</string>
     <string name="build_date">Data de compilação</string>
-    <string name="lineage_api_level">Nível de API do LineageOS</string>
-    <string name="lineage_updates">Atualizações do LineageOS</string>
-    <string name="lineage_version">Versão do LineageOS</string>
+    <string name="lineage_api_level">Nível de API do Evolution X</string>
+    <string name="lineage_updates">Atualizações do Evolution X</string>
+    <string name="lineage_version">Versão do Evolution X</string>
     <string name="lineage_vendor_security_patch">Nível de correções de segurança da fabricante</string>
     <string name="unknown">Desconhecido</string>
     <string name="app_killed_message">Aplicativo encerrado</string>
