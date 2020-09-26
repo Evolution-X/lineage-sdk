@@ -16,7 +16,7 @@
      limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="lineageos_system_label">Sistema LineageOS</string>
+    <string name="lineageos_system_label">Sistema Evolution X</string>
     <string name="permlab_modifyProfiles">modificar perfis do sistema</string>
     <string name="permdesc_modifyProfiles">Permite que um app modifique perfis do sistema.</string>
     <string name="permlab_useHardwareFramework">usar estrutura de hardware</string>
