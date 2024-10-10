@@ -1258,6 +1258,16 @@ public final class LineageSettings {
                 sHardwareKeyActionvalidator;
 
         /**
+         * Action to perform when shake gesture action is detected.
+         * (See KEY_SHAKE_GESTURE_ACTION for valid values)
+         */
+        public static final String KEY_SHAKE_GESTURE_ACTION = "shake_gestures_action";
+        
+        /** @hide */
+        public static final Validator KEY_SHAKE_GESTURE_ACTION_VALIDATOR =
+                new InclusiveIntegerRangeValidator(0, 17);
+
+        /**
          * Whether to wake the screen with the home key, the value is boolean.
          * 0 = 0ff, 1 = on
          */
@@ -2181,6 +2191,7 @@ public final class LineageSettings {
                     KEY_APP_SWITCH_LONG_PRESS_ACTION_VALIDATOR);
             VALIDATORS.put(KEY_EDGE_LONG_SWIPE_ACTION, KEY_EDGE_LONG_SWIPE_ACTION_VALIDATOR);
             VALIDATORS.put(KEY_THREE_FINGERS_SWIPE_ACTION, KEY_THREE_FINGERS_SWIPE_ACTION_VALIDATOR);
+            VALIDATORS.put(KEY_SHAKE_GESTURE_ACTION, KEY_SHAKE_GESTURE_ACTION_VALIDATOR);
             VALIDATORS.put(HOME_WAKE_SCREEN, HOME_WAKE_SCREEN_VALIDATOR);
             VALIDATORS.put(ASSIST_WAKE_SCREEN, ASSIST_WAKE_SCREEN_VALIDATOR);
             VALIDATORS.put(APP_SWITCH_WAKE_SCREEN, APP_SWITCH_WAKE_SCREEN_VALIDATOR);
