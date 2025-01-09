@@ -2729,6 +2729,16 @@ public final class LineageSettings {
          */
         public static final String QS_SHOW_AUTO_BRIGHTNESS = "qs_show_auto_brightness";
 
+        /** @hide */
+        public static final Validator QS_SHOW_BRIGHTNESS_PERCENTAGE_VALIDATOR =
+                sBooleanValidator;
+
+        /**
+         * Whether to show the brightness percentage text in brightness slider.
+         * 0 = 0ff, 1 = on
+         */
+        public static final String QS_SHOW_BRIGHTNESS_PERCENTAGE = "qs_show_brightness_percentage";
+
         /**
          * Global stats collection
          * @hide
@@ -3004,6 +3014,7 @@ public final class LineageSettings {
             VALIDATORS.put(NETWORK_TRAFFIC_SHOW_UNITS, NETWORK_TRAFFIC_SHOW_UNITS_VALIDATOR);
             VALIDATORS.put(TRUST_WARNINGS, TRUST_WARNINGS_VALIDATOR);
             VALIDATORS.put(VOLUME_PANEL_ON_LEFT, VOLUME_PANEL_ON_LEFT_VALIDATOR);
+            VALIDATORS.put(QS_SHOW_BRIGHTNESS_PERCENTAGE, QS_SHOW_BRIGHTNESS_PERCENTAGE_VALIDATOR);
         }
     }
 
