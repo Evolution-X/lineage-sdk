@@ -1,6 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2015 The CyanogenMod Project
- * SPDX-FileCopyrightText: 2020-2025 The LineageOS Project
+ * SPDX-FileCopyrightText: 2020-2024 The LineageOS Project
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -23,6 +23,10 @@ import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
 
 import com.android.internal.telephony.RILConstants;
+
+import lineageos.os.Build;
+import lineageos.os.Concierge;
+import lineageos.os.Concierge.ParcelInfo;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -267,10 +271,35 @@ public final class ConnectionSettings implements Parcelable {
                 }
                 break;
             case PROFILE_CONNECTION_2G3G4G:
-                Intent intent = new Intent(ACTION_MODIFY_NETWORK_MODE);
-                intent.putExtra(EXTRA_NETWORK_MODE, getValue());
-                intent.putExtra(EXTRA_SUB_ID, getSubId());
-                context.sendBroadcast(intent, "com.android.phone.CHANGE_NETWORK_MODE");
+                if (Build.LINEAGE_VERSION.SDK_INT >= Build.LINEAGE_VERSION_CODES.ELDERBERRY) {
+                    Intent intent = new Intent(ACTION_MODIFY_NETWORK_MODE);
+                    intent.putExtra(EXTRA_NETWORK_MODE, getValue());
+                    intent.putExtra(EXTRA_SUB_ID, getSubId());
+                    context.sendBroadcast(intent, "com.android.phone.CHANGE_NETWORK_MODE");
+                } else {
+                    Intent intent = new Intent(ACTION_MODIFY_NETWORK_MODE);
+                    switch(getValue()) {
+                        case LINEAGE_MODE_2G:
+                            intent.putExtra(EXTRA_NETWORK_MODE, RILConstants.NETWORK_MODE_GSM_ONLY);
+                            break;
+                        case LINEAGE_MODE_3G:
+                            intent.putExtra(EXTRA_NETWORK_MODE, RILConstants.NETWORK_MODE_WCDMA_ONLY);
+                            break;
+                        case LINEAGE_MODE_4G:
+                            intent.putExtra(EXTRA_NETWORK_MODE, RILConstants.NETWORK_MODE_LTE_ONLY);
+                            break;
+                        case LINEAGE_MODE_2G3G:
+                            intent.putExtra(EXTRA_NETWORK_MODE, RILConstants.NETWORK_MODE_WCDMA_PREF);
+                            break;
+                        case LINEAGE_MODE_ALL:
+                            intent.putExtra(EXTRA_NETWORK_MODE,
+                                    RILConstants.NETWORK_MODE_LTE_GSM_WCDMA);
+                            break;
+                        default:
+                            return;
+                    }
+                    context.sendBroadcast(intent);
+                }
                 break;
             case PROFILE_CONNECTION_BLUETOOTH:
                 int btstate = bta.getState();
@@ -370,9 +399,11 @@ public final class ConnectionSettings implements Parcelable {
         builder.append("</value>\n<override>");
         builder.append(mOverride);
         builder.append("</override>\n");
-        if (mConnectionId == PROFILE_CONNECTION_2G3G4G
-                && mSubId != SubscriptionManager.INVALID_SUBSCRIPTION_ID) {
-            builder.append("<subId>").append(mSubId).append("</subId>\n");
+        if (Build.LINEAGE_VERSION.SDK_INT >= Build.LINEAGE_VERSION_CODES.ELDERBERRY) {
+            if (mConnectionId == PROFILE_CONNECTION_2G3G4G
+                    && mSubId != SubscriptionManager.INVALID_SUBSCRIPTION_ID) {
+                builder.append("<subId>").append(mSubId).append("</subId>\n");
+            }
         }
         builder.append("</connectionDescriptor>\n");
     }
@@ -385,26 +416,48 @@ public final class ConnectionSettings implements Parcelable {
     /** @hide */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        // Tell the concierge to prepare the parcel
+        ParcelInfo parcelInfo = Concierge.prepareParcel(dest);
+
+        // === BOYSENBERRY ===
         dest.writeInt(mConnectionId);
         dest.writeInt(mOverride ? 1 : 0);
         dest.writeInt(mValue);
         dest.writeInt(mDirty ? 1 : 0);
 
+        // === ELDERBERRY ===
         if (mConnectionId == PROFILE_CONNECTION_2G3G4G) {
             dest.writeInt(mSubId);
         }
+
+        // Complete the parcel info for the concierge
+        parcelInfo.complete();
     }
 
     /** @hide */
     public void readFromParcel(Parcel in) {
-        mConnectionId = in.readInt();
-        mOverride = in.readInt() != 0;
-        mValue = in.readInt();
-        mDirty = in.readInt() != 0;
+        // Read parcelable version via the Concierge
+        ParcelInfo parcelInfo = Concierge.receiveParcel(in);
+        int parcelableVersion = parcelInfo.getParcelVersion();
 
-        if (mConnectionId == PROFILE_CONNECTION_2G3G4G) {
-            mSubId = in.readInt();
+        // Pattern here is that all new members should be added to the end of
+        // the writeToParcel method. Then we step through each version, until the latest
+        // API release to help unravel this parcel
+        if (parcelableVersion >= Build.LINEAGE_VERSION_CODES.BOYSENBERRY) {
+            mConnectionId = in.readInt();
+            mOverride = in.readInt() != 0;
+            mValue = in.readInt();
+            mDirty = in.readInt() != 0;
         }
+
+        if (parcelableVersion >= Build.LINEAGE_VERSION_CODES.ELDERBERRY) {
+            if (mConnectionId == PROFILE_CONNECTION_2G3G4G) {
+                mSubId = in.readInt();
+            }
+        }
+
+        // Complete parcel info for the concierge
+        parcelInfo.complete();
     }
 
     private static final class OnStartTetheringCallback
