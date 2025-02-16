@@ -1,6 +1,5 @@
 /*
  * SPDX-FileCopyrightText: 2015 The CyanogenMod Project
- * SPDX-FileCopyrightText: 2025 The LineageOS Project
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -17,13 +16,16 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.android.internal.policy.IKeyguardService;
-
+import lineageos.os.Build;
 import lineageos.profiles.AirplaneModeSettings;
 import lineageos.profiles.BrightnessSettings;
 import lineageos.profiles.ConnectionSettings;
 import lineageos.profiles.LockSettings;
 import lineageos.profiles.RingModeSettings;
 import lineageos.profiles.StreamSettings;
+
+import lineageos.os.Concierge;
+import lineageos.os.Concierge.ParcelInfo;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -202,18 +204,36 @@ public final class Profile implements Parcelable, Comparable {
         }
 
         private ProfileTrigger(Parcel in) {
-            mType = in.readInt();
-            mId = in.readString();
-            mState = in.readInt();
-            mName = in.readString();
+            // Read parcelable version via the Concierge
+            ParcelInfo parcelInfo = Concierge.receiveParcel(in);
+            int parcelableVersion = parcelInfo.getParcelVersion();
+
+            // Pattern here is that all new members should be added to the end of
+            // the writeToParcel method. Then we step through each version, until the latest
+            // API release to help unravel this parcel
+            if (parcelableVersion >= Build.LINEAGE_VERSION_CODES.BOYSENBERRY) {
+                mType = in.readInt();
+                mId = in.readString();
+                mState = in.readInt();
+                mName = in.readString();
+            }
+
+            // Complete parcel info for the concierge
+            parcelInfo.complete();
         }
 
         @Override
         public void writeToParcel(Parcel dest, int flags) {
+            // Tell the concierge to prepare the parcel
+            ParcelInfo parcelInfo = Concierge.prepareParcel(dest);
+
             dest.writeInt(mType);
             dest.writeString(mId);
             dest.writeInt(mState);
             dest.writeString(mName);
+
+            // Complete the parcel info for the concierge
+            parcelInfo.complete();
         }
 
         @Override
@@ -493,6 +513,10 @@ public final class Profile implements Parcelable, Comparable {
     /** @hide */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        // Tell the concierge to prepare the parcel
+        ParcelInfo parcelInfo = Concierge.prepareParcel(dest);
+
+        // === BOYSENBERRY ===
         if (!TextUtils.isEmpty(mName)) {
             dest.writeInt(1);
             dest.writeString(mName);
@@ -571,6 +595,8 @@ public final class Profile implements Parcelable, Comparable {
         }
         dest.writeTypedArray(mTriggers.values().toArray(new ProfileTrigger[0]), flags);
         dest.writeInt(mDozeMode);
+
+        // === ELDERBERRY ===
         dest.writeInt(mNotificationLightMode);
 
         if (networkConnectionSubIds != null && !networkConnectionSubIds.isEmpty()) {
@@ -580,68 +606,88 @@ public final class Profile implements Parcelable, Comparable {
         } else {
             dest.writeInt(0);
         }
+
+        // Complete the parcel info for the concierge
+        parcelInfo.complete();
     }
 
     /** @hide */
     public void readFromParcel(Parcel in) {
-        if (in.readInt() != 0) {
-            mName = in.readString();
-        }
-        if (in.readInt() != 0) {
-            mNameResId = in.readInt();
-        }
-        if (in.readInt() != 0) {
-            mUuid = ParcelUuid.CREATOR.createFromParcel(in).getUuid();
-        }
-        if (in.readInt() != 0) {
-            for (Parcelable parcel : in.readParcelableArray(null)) {
-                ParcelUuid u = (ParcelUuid) parcel;
-                mSecondaryUuids.add(u.getUuid());
+        // Read parcelable version via the Concierge
+        ParcelInfo parcelInfo = Concierge.receiveParcel(in);
+        int parcelableVersion = parcelInfo.getParcelVersion();
+
+        // Pattern here is that all new members should be added to the end of
+        // the writeToParcel method. Then we step through each version, until the latest
+        // API release to help unravel this parcel
+        if (parcelableVersion >= Build.LINEAGE_VERSION_CODES.BOYSENBERRY) {
+            if (in.readInt() != 0) {
+                mName = in.readString();
             }
+            if (in.readInt() != 0) {
+                mNameResId = in.readInt();
+            }
+            if (in.readInt() != 0) {
+                mUuid = ParcelUuid.CREATOR.createFromParcel(in).getUuid();
+            }
+            if (in.readInt() != 0) {
+                for (Parcelable parcel : in.readParcelableArray(null)) {
+                    ParcelUuid u = (ParcelUuid) parcel;
+                    mSecondaryUuids.add(u.getUuid());
+                }
+            }
+            mStatusBarIndicator = (in.readInt() == 1);
+            mProfileType = in.readInt();
+            mDirty = (in.readInt() == 1);
+            if (in.readInt() != 0) {
+                for (ProfileGroup group : in.createTypedArray(ProfileGroup.CREATOR)) {
+                    profileGroups.put(group.getUuid(), group);
+                    if (group.isDefaultGroup()) {
+                        mDefaultGroup = group;
+                    }
+                }
+            }
+            if (in.readInt() != 0) {
+                for (StreamSettings stream : in.createTypedArray(StreamSettings.CREATOR)) {
+                    streams.put(stream.getStreamId(), stream);
+                }
+            }
+            if (in.readInt() != 0) {
+                for (ConnectionSettings connection :
+                        in.createTypedArray(ConnectionSettings.CREATOR)) {
+                    connections.put(connection.getConnectionId(), connection);
+                }
+            }
+            if (in.readInt() != 0) {
+                mRingMode = RingModeSettings.CREATOR.createFromParcel(in);
+            }
+            if (in.readInt() != 0) {
+                mAirplaneMode = AirplaneModeSettings.CREATOR.createFromParcel(in);
+            }
+            if (in.readInt() != 0) {
+                mBrightness = BrightnessSettings.CREATOR.createFromParcel(in);
+            }
+            if (in.readInt() != 0) {
+                mScreenLockMode = LockSettings.CREATOR.createFromParcel(in);
+            }
+            for (ProfileTrigger trigger : in.createTypedArray(ProfileTrigger.CREATOR)) {
+                mTriggers.put(trigger.mId, trigger);
+            }
+            mDozeMode = in.readInt();
         }
-        mStatusBarIndicator = (in.readInt() == 1);
-        mProfileType = in.readInt();
-        mDirty = (in.readInt() == 1);
-        if (in.readInt() != 0) {
-            for (ProfileGroup group : in.createTypedArray(ProfileGroup.CREATOR)) {
-                profileGroups.put(group.getUuid(), group);
-                if (group.isDefaultGroup()) {
-                    mDefaultGroup = group;
+        if (parcelableVersion >= Build.LINEAGE_VERSION_CODES.ELDERBERRY) {
+            mNotificationLightMode = in.readInt();
+            if (in.readInt() != 0) {
+                for (ConnectionSettings connection :
+                        in.createTypedArray(ConnectionSettings.CREATOR)) {
+                    // elderberry can do msim connections
+                    networkConnectionSubIds.put(connection.getSubId(), connection);
                 }
             }
         }
-        if (in.readInt() != 0) {
-            for (StreamSettings stream : in.createTypedArray(StreamSettings.CREATOR)) {
-                streams.put(stream.getStreamId(), stream);
-            }
-        }
-        if (in.readInt() != 0) {
-            for (ConnectionSettings connection : in.createTypedArray(ConnectionSettings.CREATOR)) {
-                connections.put(connection.getConnectionId(), connection);
-            }
-        }
-        if (in.readInt() != 0) {
-            mRingMode = RingModeSettings.CREATOR.createFromParcel(in);
-        }
-        if (in.readInt() != 0) {
-            mAirplaneMode = AirplaneModeSettings.CREATOR.createFromParcel(in);
-        }
-        if (in.readInt() != 0) {
-            mBrightness = BrightnessSettings.CREATOR.createFromParcel(in);
-        }
-        if (in.readInt() != 0) {
-            mScreenLockMode = LockSettings.CREATOR.createFromParcel(in);
-        }
-        for (ProfileTrigger trigger : in.createTypedArray(ProfileTrigger.CREATOR)) {
-            mTriggers.put(trigger.mId, trigger);
-        }
-        mDozeMode = in.readInt();
-        mNotificationLightMode = in.readInt();
-        if (in.readInt() != 0) {
-            for (ConnectionSettings connection : in.createTypedArray(ConnectionSettings.CREATOR)) {
-                networkConnectionSubIds.put(connection.getSubId(), connection);
-            }
-        }
+
+        // Complete the parcel info for the concierge
+        parcelInfo.complete();
     }
 
     /**
@@ -1104,7 +1150,8 @@ public final class Profile implements Parcelable, Comparable {
                 }
                 if (name.equals("connectionDescriptor")) {
                     ConnectionSettings cs = ConnectionSettings.fromXml(xpp, context);
-                    if (cs.getConnectionId() == ConnectionSettings.PROFILE_CONNECTION_2G3G4G) {
+                    if (Build.LINEAGE_VERSION.SDK_INT >= Build.LINEAGE_VERSION_CODES.ELDERBERRY
+                            && cs.getConnectionId() == ConnectionSettings.PROFILE_CONNECTION_2G3G4G) {
                         profile.networkConnectionSubIds.put(cs.getSubId(), cs);
                     } else {
                         profile.connections.put(cs.getConnectionId(), cs);
