@@ -107,15 +107,24 @@ public class ChargingControlNotification {
 
     private void postChargingControlNotification(Long targetTime, int limit) {
         String title = mContext.getString(R.string.charging_control_notification_title);
-        String message;
-        if (targetTime != null) {
-            message = String.format(
-                    mContext.getString(R.string.charging_control_notification_content_target),
-                    msToString(mContext, targetTime));
-        } else {
-            message = String.format(
-                    mContext.getString(R.string.charging_control_notification_content_limit),
-                    limit);
+        String message = null;
+
+        try {
+            if (targetTime != null) {
+                message = String.format(
+                        mContext.getString(R.string.charging_control_notification_content_target),
+                        msToString(mContext, targetTime));
+            } else {
+                message = String.format(
+                        mContext.getString(R.string.charging_control_notification_content_limit),
+                        limit);
+            }
+        } catch (Exception e) {
+            message = null;
+        }
+
+        if (message == null) {
+            return;
         }
 
         Intent mainIntent = new Intent(INTENT_PARTS);
