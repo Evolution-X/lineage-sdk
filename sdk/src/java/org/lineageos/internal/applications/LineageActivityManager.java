@@ -22,4 +22,8 @@ public class LineageActivityManager {
     public boolean shouldForceLongScreen(String packageName) {
         return mLongScreen.shouldForceLongScreen(packageName);
     }
+
+    public float overrideMaxAspectRatio(String packageName, int targetSdkVersion) {
+        return mLongScreen.overrideMaxAspectRatio(packageName, targetSdkVersion);
+    }
 }
