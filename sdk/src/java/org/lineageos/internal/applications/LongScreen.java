@@ -69,6 +69,16 @@ public class LongScreen {
         mApps = apps;
     }
 
+    public float overrideMaxAspectRatio(String packageName, int targetSdkVersion) {
+        if (!shouldForceLongScreen(packageName)) {
+            return -1.0f;
+        }
+        if (targetSdkVersion < 26) {
+            return 3.0f;
+        }
+        return 0.0f;
+    }
+
     class SettingsObserver extends ContentObserver {
         SettingsObserver(Handler handler) {
             super(handler);
