@@ -2124,6 +2124,24 @@ public final class LineageSettings {
                 sBooleanValidator;
 
         /**
+         * Pipe-separated list of enabled restart actions shown in the power menu.
+         * Valid tokens: restart_recovery, restart_bootloader, restart_fastboot,
+         *               restart_download, restart_systemui
+         * @hide
+         */
+        public static final String POWER_MENU_RESTART_ACTIONS = "power_menu_restart_actions";
+
+        /** @hide */
+        public static final Validator POWER_MENU_RESTART_ACTIONS_VALIDATOR =
+                new DelimitedListValidator(new String[] {
+                        "restart_recovery",
+                        "restart_bootloader",
+                        "restart_fastboot",
+                        "restart_download",
+                        "restart_systemui"
+                }, "|", true);
+
+        /**
          * I can haz more bukkits
          * @hide
          */
@@ -2302,6 +2320,8 @@ public final class LineageSettings {
                     CLICK_PARTIAL_SCREENSHOT_VALIDATOR);
             VALIDATORS.put(ENABLE_TASKBAR,
                     ENABLE_TASKBAR_VALIDATOR);
+            VALIDATORS.put(POWER_MENU_RESTART_ACTIONS,
+                    POWER_MENU_RESTART_ACTIONS_VALIDATOR);
             VALIDATORS.put(__MAGICAL_TEST_PASSING_ENABLER,
                     __MAGICAL_TEST_PASSING_ENABLER_VALIDATOR);
         };
