@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2016 The CyanogenMod Project
+ * SPDX-FileCopyrightText: 2016 The CyanogenMod project
  * SPDX-License-Identifier: Apache-2.0
  */
 package lineageos.preference;
