@@ -594,8 +594,8 @@ public final class Profile implements Parcelable, Comparable {
             mUuid = ParcelUuid.CREATOR.createFromParcel(in).getUuid();
         }
         if (in.readInt() != 0) {
-            for (ParcelUuid u : in.readParcelableArray(
-                    ParcelUuid.class.getClassLoader(), ParcelUuid.class)) {
+            for (Parcelable parcel : in.readParcelableArray(null)) {
+                ParcelUuid u = (ParcelUuid) parcel;
                 mSecondaryUuids.add(u.getUuid());
             }
         }
