@@ -270,8 +270,8 @@ public final class ProfileGroup implements Parcelable {
         mUuid = ParcelUuid.CREATOR.createFromParcel(in).getUuid();
         mDefaultGroup = in.readInt() != 0;
         mDirty = in.readInt() != 0;
-        mSoundOverride = in.readParcelable(Uri.class.getClassLoader(), Uri.class);
-        mRingerOverride = in.readParcelable(Uri.class.getClassLoader(), Uri.class);
+        mSoundOverride = in.readParcelable(null);
+        mRingerOverride = in.readParcelable(null);
 
         mSoundMode = Mode.valueOf(Mode.class, in.readString());
         mRingerMode = Mode.valueOf(Mode.class, in.readString());
