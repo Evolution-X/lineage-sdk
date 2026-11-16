@@ -72,4 +72,20 @@
     <string name="trust_notification_title_onboarding">اكتشف الائتمان</string>
     <string name="trust_notification_content_onboarding">تعرف على كيفية التأكد من سلامة جهازك</string>
     <string name="trust_notification_action_manage">إدارة التنبيهات</string>
+
+    <!-- Added: completed Arabic translations (strings) -->
+    <string name="charging_speed">سرعة الشحن</string>
+    <string name="charging_speed_slow">بطيء</string>
+    <string name="charging_speed_fast">سريع</string>
+    <string name="charging_speed_super_fast">فائق السرعة</string>
+    <string name="kilobytespersecond_compact">k</string>
+    <string name="megabytespersecond_compact">M</string>
+    <string name="charging_control_notification_channel">التحكم في الشحن</string>
+    <string name="charging_control_notification_title">التحكم في الشحن</string>
+    <string name="charging_control_notification_cancel_once">إلغاء</string>
+    <string name="charging_control_notification_content_limit">ستُشحن البطارية حتى %1$d%%</string>
+    <string name="charging_control_notification_content_limit_reached">تم شحن البطارية حتى %1$d%%</string>
+    <string name="charging_control_notification_content_target">ستكتمل شحن البطارية في %1$s</string>
+    <string name="charging_control_notification_content_target_reached">تم شحن البطارية</string>
+
 </resources>
