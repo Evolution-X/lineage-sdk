@@ -1436,6 +1436,29 @@ public final class LineageSettings {
                 new InclusiveIntegerRangeValidator(70, 100);
 
         /**
+         * Battery level at which charging resumes after reaching the limit.
+         * -1 derives the value from the charge limit and the recharge margin.
+         */
+        public static final String CHARGING_CONTROL_RECHARGE_LIMIT =
+                "charging_control_recharge_limit";
+
+        /** @hide */
+        public static final Validator CHARGING_CONTROL_RECHARGE_LIMIT_VALIDATOR =
+                new Validator() {
+                    @Override
+                    public boolean validate(String value) {
+                        try {
+                            final int intValue = Integer.parseInt(value);
+                            // 50 == HealthInterface.MIN_RECHARGE_LIMIT
+                            return intValue == -1
+                                    || (intValue >= 50 && intValue <= 99);
+                        } catch (NumberFormatException e) {
+                            return false;
+                        }
+                    }
+                };
+
+        /**
          * Fast charging mode
          */
         public static final String FAST_CHARGE_MODE = "fast_charge_mode";
@@ -2215,6 +2238,8 @@ public final class LineageSettings {
             VALIDATORS.put(CHARGING_CONTROL_START_TIME, CHARGING_CONTROL_START_TIME_VALIDATOR);
             VALIDATORS.put(CHARGING_CONTROL_TARGET_TIME, CHARGING_CONTROL_TARGET_TIME_VALIDATOR);
             VALIDATORS.put(CHARGING_CONTROL_LIMIT, CHARGING_CONTROL_LIMIT_VALIDATOR);
+            VALIDATORS.put(CHARGING_CONTROL_RECHARGE_LIMIT,
+                    CHARGING_CONTROL_RECHARGE_LIMIT_VALIDATOR);
             VALIDATORS.put(FAST_CHARGE_MODE, FAST_CHARGE_MODE_VALIDATOR);
             VALIDATORS.put(BATTERY_LIGHT_ENABLED, BATTERY_LIGHT_ENABLED_VALIDATOR);
             VALIDATORS.put(BATTERY_LIGHT_FULL_CHARGE_DISABLED,

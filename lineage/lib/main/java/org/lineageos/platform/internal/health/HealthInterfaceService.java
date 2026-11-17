@@ -150,6 +150,16 @@ public class HealthInterfaceService extends LineageSystemService {
         }
 
         @Override
+        public int getChargingControlRechargeLimit() {
+            return mCCC.getRechargeLimit();
+        }
+
+        @Override
+        public boolean setChargingControlRechargeLimit(int limit) {
+            return mCCC.setRechargeLimit(limit);
+        }
+
+        @Override
         public boolean resetChargingControl() {
             return mCCC.reset();
         }
@@ -159,6 +169,16 @@ public class HealthInterfaceService extends LineageSystemService {
             // We allow fine-grained settings if bypass and toggle or limit modes are supported
             return mCCC.isChargingModeSupported(ChargingControlSupportedMode.TOGGLE)
                     || mCCC.isChargingModeSupported(ChargingControlSupportedMode.LIMIT);
+        }
+
+        @Override
+        public boolean isChargingBypassSupported() {
+            try {
+                return mCCC.isChargingModeSupported(ChargingControlSupportedMode.BYPASS);
+            } catch (RuntimeException e) {
+                Log.e(TAG, "Failed to query charging bypass support", e);
+                return false;
+            }
         }
 
         @Override

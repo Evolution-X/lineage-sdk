@@ -34,6 +34,8 @@ public class ChargingControlNotification {
 
     private boolean mIsDoneNotification = false;
     private boolean mIsNotificationPosted = false;
+    private int mPostedLimit = -1;
+    private int mPostedRechargeLimit = -1;
 
     ChargingControlNotification(Context context, ChargingControlController controller) {
         mContext = context;
@@ -48,8 +50,9 @@ public class ChargingControlNotification {
                 notificationFilter, Context.RECEIVER_EXPORTED);
     }
 
-    public void post(int limit, boolean done) {
-        if (mIsNotificationPosted && mIsDoneNotification == done) {
+    public void post(int limit, int rechargeLimit, boolean done) {
+        if (mIsNotificationPosted && mIsDoneNotification == done
+                && mPostedLimit == limit && mPostedRechargeLimit == rechargeLimit) {
             return;
         }
 
@@ -58,13 +61,15 @@ public class ChargingControlNotification {
         }
 
         if (done) {
-            postChargingDoneNotification(null, limit);
+            postChargingDoneNotification(null, limit, rechargeLimit);
         } else {
             postChargingControlNotification(null, limit);
         }
 
         mIsNotificationPosted = true;
         mIsDoneNotification = done;
+        mPostedLimit = limit;
+        mPostedRechargeLimit = rechargeLimit;
     }
 
     public void post(Long targetTime, boolean done) {
@@ -77,7 +82,7 @@ public class ChargingControlNotification {
         }
 
         if (done) {
-            postChargingDoneNotification(targetTime, 0);
+            postChargingDoneNotification(targetTime, 0, 0);
         } else {
             postChargingControlNotification(targetTime, 0);
         }
@@ -152,7 +157,7 @@ public class ChargingControlNotification {
         mNotificationManager.notify(CHARGING_CONTROL_NOTIFICATION_ID, notification.build());
     }
 
-    private void postChargingDoneNotification(Long targetTime, int limit) {
+    private void postChargingDoneNotification(Long targetTime, int limit, int rechargeLimit) {
         cancelChargingControlNotification();
 
         String title = mContext.getString(R.string.charging_control_notification_title);
@@ -163,8 +168,8 @@ public class ChargingControlNotification {
         } else {
             message = String.format(
                     mContext.getString(
-                            R.string.charging_control_notification_content_limit_reached),
-                    limit);
+                            R.string.charging_control_notification_content_limit_reached_recharge),
+                    limit, rechargeLimit);
         }
 
         Intent mainIntent = new Intent(INTENT_PARTS);
