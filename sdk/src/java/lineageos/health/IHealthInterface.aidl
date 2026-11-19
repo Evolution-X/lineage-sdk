@@ -31,4 +31,9 @@ interface IHealthInterface {
     int[] getSupportedFastChargeModes();
     int getFastChargeMode();
     boolean setFastChargeMode(int mode);
+
+    // New methods must be appended to keep the existing transaction IDs stable
+    int getChargingControlRechargeLimit();
+    boolean setChargingControlRechargeLimit(int limit);
+    boolean isChargingBypassSupported();
 }

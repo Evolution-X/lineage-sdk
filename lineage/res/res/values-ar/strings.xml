@@ -85,6 +85,7 @@
     <string name="charging_control_notification_cancel_once">إلغاء</string>
     <string name="charging_control_notification_content_limit">ستُشحن البطارية حتى %1$d%%</string>
     <string name="charging_control_notification_content_limit_reached">تم شحن البطارية حتى %1$d%%</string>
+    <string name="charging_control_notification_content_limit_reached_recharge">تم شحن البطارية حتى %1$d%%، ويستأنف الشحن عند %2$d%%</string>
     <string name="charging_control_notification_content_target">ستكتمل شحن البطارية في %1$s</string>
     <string name="charging_control_notification_content_target_reached">تم شحن البطارية</string>
 

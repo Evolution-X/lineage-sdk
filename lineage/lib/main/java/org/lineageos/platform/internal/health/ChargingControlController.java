@@ -27,6 +27,7 @@ import android.os.ServiceManager;
 import android.text.format.DateUtils;
 import android.util.Log;
 
+import lineageos.health.HealthInterface;
 import lineageos.providers.LineageSettings;
 
 import org.lineageos.platform.internal.R;
@@ -51,6 +52,7 @@ public class ChargingControlController extends LineageHealthFeature {
     private boolean mDefaultEnabled = false;
     private int mDefaultMode;
     private int mDefaultLimit;
+    private int mDefaultRechargeMargin;
     private int mDefaultStartTime;
     private int mDefaultTargetTime;
 
@@ -59,6 +61,8 @@ public class ChargingControlController extends LineageHealthFeature {
             LineageSettings.System.CHARGING_CONTROL_MODE);
     private final Uri LIMIT_URI = LineageSettings.System.getUriFor(
             LineageSettings.System.CHARGING_CONTROL_LIMIT);
+    private final Uri RECHARGE_LIMIT_URI = LineageSettings.System.getUriFor(
+            LineageSettings.System.CHARGING_CONTROL_RECHARGE_LIMIT);
     private final Uri ENABLED_URI = LineageSettings.System.getUriFor(
             LineageSettings.System.CHARGING_CONTROL_ENABLED);
     private final Uri START_TIME_URI = LineageSettings.System.getUriFor(
@@ -102,6 +106,8 @@ public class ChargingControlController extends LineageHealthFeature {
                 R.integer.config_defaultChargingControlTargetTime);
         mDefaultLimit = mContext.getResources().getInteger(
                 R.integer.config_defaultChargingControlLimit);
+        mDefaultRechargeMargin = mContext.getResources().getInteger(
+                R.integer.config_chargingControlBatteryRechargeMargin);
 
         // Set up charging control providers
         mDeadline = new Deadline(mChargingControl, mContext);
@@ -227,11 +233,54 @@ public class ChargingControlController extends LineageHealthFeature {
         }
 
         putInt(LineageSettings.System.CHARGING_CONTROL_LIMIT, limit);
+
+        if (limit >= HealthInterface.MIN_RECHARGE_LIMIT
+                && getStoredRechargeLimit() >= limit) {
+            putInt(LineageSettings.System.CHARGING_CONTROL_RECHARGE_LIMIT,
+                    Math.max(HealthInterface.MIN_RECHARGE_LIMIT, limit - 1));
+        }
         return true;
+    }
+
+    public int getRechargeLimit() {
+        final int stored = getStoredRechargeLimit();
+        final int limit = getLimit();
+
+        if (stored == HealthInterface.RECHARGE_LIMIT_AUTO) {
+            return Math.max(HealthInterface.MIN_RECHARGE_LIMIT,
+                    Math.min(limit - 1, limit - mDefaultRechargeMargin));
+        }
+
+        return Math.max(HealthInterface.MIN_RECHARGE_LIMIT,
+                Math.min(stored, limit - 1));
+    }
+
+    public boolean setRechargeLimit(int rechargeLimit) {
+        if (rechargeLimit == HealthInterface.RECHARGE_LIMIT_AUTO) {
+            putInt(LineageSettings.System.CHARGING_CONTROL_RECHARGE_LIMIT,
+                    rechargeLimit);
+            return true;
+        }
+
+        if (rechargeLimit < HealthInterface.MIN_RECHARGE_LIMIT
+                || rechargeLimit > 99
+                || rechargeLimit >= getLimit()) {
+            return false;
+        }
+
+        putInt(LineageSettings.System.CHARGING_CONTROL_RECHARGE_LIMIT, rechargeLimit);
+        return true;
+    }
+
+    private int getStoredRechargeLimit() {
+        return LineageSettings.System.getInt(mContentResolver,
+                LineageSettings.System.CHARGING_CONTROL_RECHARGE_LIMIT,
+                HealthInterface.RECHARGE_LIMIT_AUTO);
     }
 
     public boolean reset() {
         return setEnabled(mDefaultEnabled) && setMode(mDefaultMode) && setLimit(mDefaultLimit)
+                && setRechargeLimit(HealthInterface.RECHARGE_LIMIT_AUTO)
                 && setStartTime(mDefaultStartTime) && setTargetTime(mDefaultTargetTime);
     }
 
@@ -279,7 +328,8 @@ public class ChargingControlController extends LineageHealthFeature {
         }
 
         // Register setting observer
-        registerSettings(MODE_URI, LIMIT_URI, ENABLED_URI, START_TIME_URI, TARGET_TIME_URI);
+        registerSettings(MODE_URI, LIMIT_URI, RECHARGE_LIMIT_URI, ENABLED_URI,
+                START_TIME_URI, TARGET_TIME_URI);
 
         handleSettingChange();
     }
@@ -431,12 +481,14 @@ public class ChargingControlController extends LineageHealthFeature {
 
         int mode = getMode();
         int limit = getLimit();
+        int rechargeLimit = getRechargeLimit();
 
         mCurrentProvider.enable();
 
         if (mode == MODE_LIMIT) {
-            if (mCurrentProvider.update(mBatteryPct, limit) && mIsPowerConnected) {
-                mChargingNotification.post(limit, mBatteryPct >= limit);
+            if (mCurrentProvider.update(mBatteryPct, limit, rechargeLimit)
+                    && mIsPowerConnected) {
+                mChargingNotification.post(limit, rechargeLimit, mBatteryPct >= limit);
             } else {
                 mChargingNotification.cancel();
             }
@@ -541,6 +593,7 @@ public class ChargingControlController extends LineageHealthFeature {
         pw.println("  Enabled: " + isEnabled());
         pw.println("  Mode: " + getMode());
         pw.println("  Limit: " + getLimit());
+        pw.println("  RechargeLimit: " + getRechargeLimit());
         pw.println("  StartTime: " + getStartTime());
         pw.println("  TargetTime: " + getTargetTime());
         pw.println();

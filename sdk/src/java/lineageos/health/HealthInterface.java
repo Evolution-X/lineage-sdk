@@ -34,6 +34,16 @@ public class HealthInterface {
      */
     public static final int MODE_LIMIT = 3;
 
+    /**
+     * Derive the recharge limit from the charge limit
+     */
+    public static final int RECHARGE_LIMIT_AUTO = -1;
+
+    /**
+     * Minimum recharge limit, in percent
+     */
+    public static final int MIN_RECHARGE_LIMIT = 50;
+
     private static final String TAG = "HealthInterface";
     private static IHealthInterface sService;
     private static HealthInterface sInstance;
@@ -259,6 +269,35 @@ public class HealthInterface {
     }
 
     /**
+     * Gets the battery level at which charging resumes after reaching the limit
+     *
+     * @return the recharge limit, or {@link #MIN_RECHARGE_LIMIT} if unavailable
+     */
+    public int getRechargeLimit() {
+        try {
+            return checkService()
+                    ? sService.getChargingControlRechargeLimit()
+                    : MIN_RECHARGE_LIMIT;
+        } catch (RemoteException e) {
+            return MIN_RECHARGE_LIMIT;
+        }
+    }
+
+    /**
+     * Sets the battery level at which charging resumes after reaching the limit
+     *
+     * @param limit the recharge limit, or {@link #RECHARGE_LIMIT_AUTO} to derive it
+     * @return true if the recharge limit was successfully set
+     */
+    public boolean setRechargeLimit(int limit) {
+        try {
+            return checkService() && sService.setChargingControlRechargeLimit(limit);
+        } catch (RemoteException e) {
+            return false;
+        }
+    }
+
+    /**
      * Resets the charging control setting to default
      *
      * @return true if the setting was successfully reset
@@ -279,6 +318,19 @@ public class HealthInterface {
     public boolean allowFineGrainedSettings() {
         try {
             return checkService() && sService.allowFineGrainedSettings();
+        } catch (RemoteException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Returns whether the device bypasses the battery when charging stops
+     *
+     * @return true if the device supports battery bypass
+     */
+    public boolean isChargingBypassSupported() {
+        try {
+            return checkService() && sService.isChargingBypassSupported();
         } catch (RemoteException e) {
             return false;
         }

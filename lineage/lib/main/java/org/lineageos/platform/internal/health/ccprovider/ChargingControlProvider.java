@@ -26,11 +26,11 @@ public abstract class ChargingControlProvider {
         mChargingControl = chargingControl;
     }
 
-    public final boolean update(float batteryPct, int targetPct) {
+    public final boolean update(float batteryPct, int targetPct, int rechargePct) {
         if (!isEnabled) {
             return false;
         }
-        return onBatteryChanged(batteryPct, targetPct);
+        return onBatteryChanged(batteryPct, targetPct, rechargePct);
     }
 
     public final boolean update(float batteryPct, long startTime, long targetTime, int configMode) {
@@ -81,11 +81,12 @@ public abstract class ChargingControlProvider {
      * Called when the mode is {@link lineageos.health.HealthInterface#MODE_LIMIT} and
      * the {@link android.content.Intent#ACTION_BATTERY_CHANGED} is received.
      *
-     * @param currentPct Current battery percentage
-     * @param targetPct  The user-configured target charging limit
+     * @param currentPct  Current battery percentage
+     * @param targetPct   The user-configured target charging limit
+     * @param rechargePct The battery level at which charging should resume
      * @return Whether a notification should be posted
      */
-    protected boolean onBatteryChanged(float currentPct, int targetPct) {
+    protected boolean onBatteryChanged(float currentPct, int targetPct, int rechargePct) {
         throw new RuntimeException("Unsupported operation");
     }
 
