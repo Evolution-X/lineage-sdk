@@ -1283,6 +1283,17 @@ public final class LineageSettings {
                 sHardwareKeyActionvalidator;
 
         /**
+         * Action to perform when the Quick Tap gesture (double tap on the back of the device)
+         * is detected. (Default is 12)
+         * (See KEY_HOME_LONG_PRESS_ACTION for valid values)
+         */
+        public static final String KEY_QUICK_TAP_ACTION = "key_quick_tap_action";
+
+        /** @hide */
+        public static final Validator KEY_QUICK_TAP_ACTION_VALIDATOR =
+                sHardwareKeyActionvalidator;
+
+        /**
          * Suffix appended to a key action setting (one of KEY_ACTION_SETTINGS) to get the
          * setting holding the app opened when that action is "Open app".
          * The value is a flattened ComponentName of a launcher activity.
@@ -1314,6 +1325,7 @@ public final class LineageSettings {
             KEY_APP_SWITCH_LONG_PRESS_ACTION,
             KEY_EDGE_LONG_SWIPE_ACTION,
             KEY_THREE_FINGERS_SWIPE_ACTION,
+            KEY_QUICK_TAP_ACTION,
         };
 
         /**
@@ -2241,6 +2253,7 @@ public final class LineageSettings {
             VALIDATORS.put(KEY_EDGE_LONG_SWIPE_ACTION, KEY_EDGE_LONG_SWIPE_ACTION_VALIDATOR);
             VALIDATORS.put(KEY_THREE_FINGERS_SWIPE_ACTION, KEY_THREE_FINGERS_SWIPE_ACTION_VALIDATOR);
             VALIDATORS.put(KEY_SHAKE_GESTURE_ACTION, KEY_SHAKE_GESTURE_ACTION_VALIDATOR);
+            VALIDATORS.put(KEY_QUICK_TAP_ACTION, KEY_QUICK_TAP_ACTION_VALIDATOR);
             for (String setting : KEY_ACTION_SETTINGS) {
                 VALIDATORS.put(setting + KEY_ACTION_LAUNCH_APP_SUFFIX,
                         sComponentNameOrEmptyValidator);
